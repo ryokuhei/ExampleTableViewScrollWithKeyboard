@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="317" id="5nQ-q8-rd9" customClass="TestCell" customModule="TestTableView" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="317"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5nQ-q8-rd9" id="FTt-np-EXV">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="316.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TEST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fwi-Mk-vcV">
+                        <rect key="frame" x="167" y="21" width="41" height="35"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9er-Qe-Hzx">
+                        <rect key="frame" x="36" y="76" width="303" height="200"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="200" id="l1F-lH-zM5"/>
+                        </constraints>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="9er-Qe-Hzx" firstAttribute="leading" secondItem="FTt-np-EXV" secondAttribute="leadingMargin" constant="20" id="1yK-hn-SFb"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="9er-Qe-Hzx" secondAttribute="bottom" constant="30" id="4Ia-Fn-TqJ"/>
+                    <constraint firstItem="9er-Qe-Hzx" firstAttribute="centerX" secondItem="FTt-np-EXV" secondAttribute="centerX" id="WXe-SQ-46x"/>
+                    <constraint firstItem="fwi-Mk-vcV" firstAttribute="top" secondItem="FTt-np-EXV" secondAttribute="topMargin" constant="10" id="e4L-m5-Ggx"/>
+                    <constraint firstItem="fwi-Mk-vcV" firstAttribute="centerX" secondItem="FTt-np-EXV" secondAttribute="centerX" id="hMI-Ze-dEi"/>
+                    <constraint firstItem="9er-Qe-Hzx" firstAttribute="top" secondItem="fwi-Mk-vcV" secondAttribute="bottom" constant="20" id="zIE-5X-gCE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textView" destination="9er-Qe-Hzx" id="tIM-PP-lsQ"/>
+            </connections>
+            <point key="canvasLocation" x="61.600000000000001" y="204.64767616191907"/>
+        </tableViewCell>
+    </objects>
+</document>
