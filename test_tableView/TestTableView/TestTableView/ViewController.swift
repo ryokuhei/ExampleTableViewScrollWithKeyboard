@@ -10,7 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var tapLocation: CGPoint?
+    var tapPoint = CGPoint(x: 0, y: 0)
+    var backToContentOffset = CGPoint(x: 0, y: 0)
+    var isScroll = false
 
     let datasource = [
         [
@@ -40,13 +42,12 @@ class ViewController: UIViewController {
         let nib2 = UINib(nibName: "TestCell2", bundle: nil)
         self.tableView.register(nib2, forCellReuseIdentifier: "TestCell2")
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         self.tableView.addGestureRecognizer(tapGesture)
         
     }
-    
-    @objc func tapped() {
-        
+
+    @objc func didTap() {
         
         tableView.endEditing(true)
     }
@@ -64,33 +65,53 @@ class ViewController: UIViewController {
     
     @objc func willShowKeyboard(notification: Notification) {
         
-        let keyboardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue
+        guard !isScroll else {
+            return
+        }
+        
+        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
-        let size = keyboardSize?.cgRectValue.size
-        self.keyboardHeight = size?.height
+        let keyboardRect = keyboardFrame?.cgRectValue
 
-        self.tapY = tapLocation?.y
-        self.keyboardHeight = size?.height
-//        print("scroll Y \(tapY)")
-//        print("keyboard Height Y \(keyboardHeight)")
+        guard  keyboardRect?.contains(tapPoint) ?? false else {
+            print("no tapped in keyborad")
+            return
+        }
+        print("tapped in keyboard")
+        
 
-        // 667
+        let iPhoneSize = UIScreen.main.bounds.size
+
+        let keyboardSize = keyboardRect?.size ?? CGSize(width: 0, height: 0)
+        let enableArea = (iPhoneSize.height - keyboardSize.height)
+        
+        let scrollY = tapPoint.y - (enableArea / 2)
+
+        self.backToContentOffset = self.tableView.contentOffset
         UIView.animate(withDuration: duration ?? 0, animations: {
-//            self.tableView.contentOffset.y = (self.tapY ?? 0) + 1000
+            self.tableView.contentOffset.y += scrollY
 //                + (self.keyboardHeight ?? 0)
 
-            self.tempY = self.tableView.contentOffset.y
-            self.tableView.contentOffset.y = (self.tapY ?? 0) - (667 / 2)
+//            self.tempY = self.tableView.contentOffset.y
+//            self.tableView.contentOffset.y = (self.tapY ?? 0) - (667 / 2)
+            
         })
+        self.isScroll = true
     }
 
     @objc func willHideKeyboard(notification: Notification) {
 
-        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
-        UIView.animate(withDuration: duration ?? 0, animations: {
-//            self.tableView.contentOffset.y = self.tapY ?? 0
-            self.tableView.contentOffset.y = self.tempY ?? 0
-        })
+        guard isScroll else {
+            return
+        }
+        
+//        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
+//
+//        UIView.animate(withDuration: duration ?? 0, animations: {
+//            self.tableView.contentOffset = self.backToContentOffset
+////            self.tableView.contentOffset.y = self.tempY ?? 0
+//        })
+        self.isScroll = false
     }
     
 
@@ -114,18 +135,18 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         switch indexPath.section {
-        case 1:
-          let cell1 = tableView.dequeueReusableCell(withIdentifier: "TestCell", for: indexPath) as! TestCell
-            cell = cell1
-        case 0, 2:
+//        case 0:
+//          let cell1 = tableView.dequeueReusableCell(withIdentifier: "TestCell", for: indexPath) as! TestCell
+//            cell = cell1
+        case 0, 1, 2:
           let cell2 = tableView.dequeueReusableCell(withIdentifier: "TestCell2", for: indexPath) as! TestCell2
           cell2.tableView = self.tableView
-          cell2.tapLocation = { [weak self] point in
-//            print("set point: \(point)")
-            self?.tapLocation = point
-            
+          cell2.targetView = self.view
+          cell2.tapped = { [weak self] point in
+            self?.tapPoint = point
           }
-            cell = cell2
+          
+          cell = cell2
         default:
           let defaultCell = tableView.dequeueReusableCell(withIdentifier: "TestCell2", for: indexPath)
             cell = defaultCell

@@ -12,6 +12,9 @@ class TestCell2: UITableViewCell {
     
     @IBOutlet weak var textView: TestTextView!
     
+    weak var targetView: UIView?
+    var tapped: ((_ point :CGPoint) -> Void)?
+
     weak var tableView: UITableView? {
         didSet {
             textView.targetView = self.tableView
@@ -23,26 +26,34 @@ class TestCell2: UITableViewCell {
         
         textView.delegate = self
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(taped))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
         textView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
+        
+        textView.layer.borderWidth = 1.0
+        textView.layer.borderColor = UIColor.black.cgColor
+        
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(doPanGesture(sender:)))
+//        textView.addGestureRecognizer(panGesture)
+//        panGesture.delegate = self
+        
     }
     
-    @objc func taped(sender: UITapGestureRecognizer) {
+    @objc func doPanGesture(sender: UIPanGestureRecognizer) {
+//        self.tableView?.endEditing(true)
+        self.textView?.resignFirstResponder()
+    }
+
+    @objc func didTap(sender: UITapGestureRecognizer) {
         
         print("tapped")
-        self.textView.taped(sender: sender)
+        let tapPoint = sender.location(in: self.targetView)
+        self.tapped?(tapPoint)
     }
 
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         
         return true
-    }
-
-    var tapLocation: ((CGPoint?) -> Void)? {
-        didSet {
-            self.textView.tapLocationHandler = self.tapLocation
-        }
     }
 
 }
@@ -58,13 +69,4 @@ extension TestCell2: UITextViewDelegate {
 class TestTextView: UITextView {
     
     weak var targetView: UIView?
-    var tapLocationHandler: ((CGPoint?) -> Void)?
-    
-    func taped(sender: UITapGestureRecognizer) {
-        
-        print("tapped")
-        let taplocation = sender.location(in: targetView)
-        self.tapLocationHandler?(taplocation)
-    }
-    
 }
