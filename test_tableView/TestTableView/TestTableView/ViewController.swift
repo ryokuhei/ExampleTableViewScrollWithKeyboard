@@ -17,15 +17,14 @@ class ViewController: UIViewController {
     let datasource = [
         [
             "TestCell2",
-        ],
-        [
-            "TestCell",
-            "TestCell",
-         ],
-        [
+            "TestCell2",
+            "TestCell2",
             "TestCell2",
             "TestCell2",
         ],
+        [
+            "TestCell",
+        ]
     ]
     
     @IBOutlet weak var tableView: UITableView!
@@ -135,10 +134,8 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         switch indexPath.section {
-//        case 0:
-//          let cell1 = tableView.dequeueReusableCell(withIdentifier: "TestCell", for: indexPath) as! TestCell
-//            cell = cell1
-        case 0, 1, 2:
+
+        case 0:
           let cell2 = tableView.dequeueReusableCell(withIdentifier: "TestCell2", for: indexPath) as! TestCell2
           cell2.tableView = self.tableView
           cell2.targetView = self.view
@@ -147,6 +144,10 @@ extension ViewController: UITableViewDataSource {
           }
           
           cell = cell2
+        case 1:
+           let cell1 = tableView.dequeueReusableCell(withIdentifier: "TestCell", for: indexPath) as! TestCell
+            cell = cell1
+            
         default:
           let defaultCell = tableView.dequeueReusableCell(withIdentifier: "TestCell2", for: indexPath)
             cell = defaultCell
@@ -160,8 +161,8 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UIScrollViewDelegate {
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        tableView.endEditing(true)
+//    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+//        scrollView.setContentOffset(scrollView.contentOffset, animated: false)
 //    }
     
 }

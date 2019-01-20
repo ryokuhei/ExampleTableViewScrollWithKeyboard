@@ -9,20 +9,10 @@
 import UIKit
 
 class TestCell: UITableViewCell {
-    @IBOutlet weak var textView: UITextView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        textView.delegate = self
-    }
-    
-}
-
-extension TestCell: UITextViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.endEditing(true)
     }
     
 }

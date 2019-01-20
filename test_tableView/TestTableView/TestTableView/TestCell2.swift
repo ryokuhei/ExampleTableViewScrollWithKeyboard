@@ -61,7 +61,11 @@ class TestCell2: UITableViewCell {
 extension TestCell2: UITextViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.endEditing(true)
+//        self.endEditing(true)
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+//        scrollView.setContentOffset(scrollView.contentOffset, animated: false)
     }
     
 }
